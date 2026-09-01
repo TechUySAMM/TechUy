@@ -1,0 +1,122 @@
+:root{
+  --primary: #0a5c66;
+  --primary-dark: #073e45;
+  --accent: #e07a3f;
+}
+
+body{
+  background-color: #f2f6f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-techuy{
+  background-color: var(--primary-dark) !important;
+}
+
+.logo-techuy{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.btn-techuy{
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.btn-techuy:hover{
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: #fff;
+}
+
+.thead-techuy{
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.icono-especialidad{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.footer-techuy{
+  background-color: var(--primary-dark);
+  color: #cfe6e9;
+  text-align: center;
+  padding: 12px 0;
+  font-size: .85rem;
+
+}
+
+
+html.vista-paciente{
+  font-size: 106.25%;
+}
+
+
+html.vista-paciente.letra-grande{
+  font-size: 125%;
+}
+
+body{
+  line-height: 1.6;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.vista-paciente .btn{
+  min-height: 52px;
+}
+.vista-paciente .list-group-item-action{
+  padding: .9rem 1rem;
+}
+.vista-paciente #buscador{
+  min-height: 56px;
+  font-size: 1.05rem;
+}
+
+.salto-contenido{
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 1100;
+  background: #fff;
+  color: var(--primary-dark);
+  padding: .7rem 1rem;
+  font-weight: 700;
+  border-radius: 0 0 .5rem 0;
+}
+.salto-contenido:focus{
+  left: 0;
+}
+
+.texto-suave{
+  color: #3c4a5e;
+}
+
+.flecha{
+  transition: transform .2s;
+}
+[aria-expanded="true"] .flecha{
+  transform: rotate(180deg);
+}
+
+mark{
+  background-color: #ffe08a;
+  padding: 0 .1em;
+}
+
