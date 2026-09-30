@@ -1,0 +1,171 @@
+<?php
+require "conexion.php";
+
+$errores = [];
+
+// El id llega por GET la primera vez (desde el listado)
+// y por POST cuando se envía el formulario (campo oculto).
+$id = $_SERVER["REQUEST_METHOD"] === "POST" ? ($_POST["id"] ?? "") : ($_GET["id"] ?? "");
+
+// Si el id no es un número entero válido, volvemos al listado
+if (!filter_var($id, FILTER_VALIDATE_INT)) {
+    header("Location: documentos.php");
+    exit;
+}
+
+// Buscamos el documento (el id viene de afuera: consulta preparada)
+$sql = "SELECT id, titulo, tipo, cedula_paciente, fecha_emision, ruta_archivo
+        FROM documento
+        WHERE id = :id AND activo = 1";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([":id" => $id]);
+$documento = $stmt->fetch();
+
+// Si no existe (o está dado de baja), volvemos al listado
+if (!$documento) {
+    header("Location: documentos.php");
+    exit;
+}
+
+// Precargamos el formulario con lo que hay en la base
+$titulo = $documento["titulo"];
+$tipo   = $documento["tipo"];
+$cedula = $documento["cedula_paciente"];
+$fecha  = $documento["fecha_emision"];
+$ruta   = $documento["ruta_archivo"];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Ahora el formulario conserva lo que escribió la persona
+    $titulo = trim($_POST["titulo"] ?? "");
+    $tipo   = trim($_POST["tipo"] ?? "");
+    $cedula = trim($_POST["cedula_paciente"] ?? "");
+    $fecha  = trim($_POST["fecha_emision"] ?? "");
+    $ruta   = trim($_POST["ruta_archivo"] ?? "");
+
+    // Mismas validaciones que en el alta
+    if ($titulo === "") {
+        $errores[] = "El título es obligatorio.";
+    } elseif (mb_strlen($titulo) > 150) {
+        $errores[] = "El título no puede superar los 150 caracteres.";
+    }
+
+    if ($tipo !== "indicacion" && $tipo !== "informacion") {
+        $errores[] = "Debe seleccionar un tipo válido.";
+    }
+
+    if (!preg_match('/^[0-9]{7,8}$/', $cedula)) {
+        $errores[] = "La cédula debe tener 7 u 8 dígitos, sin puntos ni guion.";
+    }
+
+    $partes = explode("-", $fecha);
+    if (count($partes) !== 3 || !checkdate((int)$partes[1], (int)$partes[2], (int)$partes[0])) {
+        $errores[] = "La fecha de emisión no es válida.";
+    }
+
+    if (!preg_match('/^documentos\/[a-zA-Z0-9_-]+\.pdf$/', $ruta)) {
+        $errores[] = "La ruta debe tener el formato documentos/nombre.pdf";
+    }
+
+    if (empty($errores)) {
+        $sql = "UPDATE documento
+                SET titulo = :titulo,
+                    tipo = :tipo,
+                    cedula_paciente = :cedula,
+                    fecha_emision = :fecha,
+                    ruta_archivo = :ruta
+                WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+
+        try {
+            $stmt->execute([
+                ":titulo" => $titulo,
+                ":tipo"   => $tipo,
+                ":cedula" => $cedula,
+                ":fecha"  => $fecha,
+                ":ruta"   => $ruta,
+                ":id"     => $id
+            ]);
+
+            header("Location: documentos.php?ok=2");
+            exit;
+
+        } catch (PDOException $e) {
+            // Si deja la misma ruta que ya tenía, no da error:
+            // MySQL solo compara contra las OTRAS filas.
+            if ($e->getCode() === "23000") {
+                $errores[] = "Ya existe otro documento con esa ruta de archivo.";
+            } else {
+                throw $e;
+            }
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar documento - S.I.G.S.M.</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4" style="max-width: 700px;">
+
+    <h1 class="h4 mb-3">Editar documento</h1>
+
+    <?php if (!empty($errores)): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach ($errores as $e): ?>
+                    <li><?= htmlspecialchars($e) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST" action="editar_documento.php">
+
+        <!-- El id viaja escondido para saber qué documento actualizar -->
+        <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+
+        <div class="mb-3">
+            <label class="form-label">Título</label>
+            <input type="text" name="titulo" class="form-control"
+                   value="<?= htmlspecialchars($titulo) ?>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipo</label>
+            <select name="tipo" class="form-select">
+                <option value="">Seleccione...</option>
+                <option value="indicacion" <?= $tipo === "indicacion" ? "selected" : "" ?>>Indicación médica</option>
+                <option value="informacion" <?= $tipo === "informacion" ? "selected" : "" ?>>Información general</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Cédula del paciente</label>
+            <input type="text" name="cedula_paciente" class="form-control"
+                   value="<?= htmlspecialchars($cedula) ?>">
+            <div class="form-text">Sin puntos ni guion.</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Fecha de emisión</label>
+            <input type="date" name="fecha_emision" class="form-control"
+                   value="<?= htmlspecialchars($fecha) ?>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ruta del archivo (simulado)</label>
+            <input type="text" name="ruta_archivo" class="form-control font-monospace"
+                   value="<?= htmlspecialchars($ruta) ?>">
+        </div>
+
+        <button type="submit" class="btn btn-warning">Guardar cambios</button>
+        <a href="documentos.php" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+</body>
+</html>

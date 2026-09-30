@@ -1,0 +1,25 @@
+<?php
+require "conexion.php";
+
+// La baja solo se acepta por POST. Si alguien entra escribiendo
+// la URL en el navegador (GET), lo mandamos al listado sin hacer nada.
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: documentos.php");
+    exit;
+}
+
+$id = $_POST["id"] ?? "";
+
+if (!filter_var($id, FILTER_VALIDATE_INT)) {
+    header("Location: documentos.php");
+    exit;
+}
+
+// Baja lógica: NO usamos DELETE, marcamos activo = 0.
+// El documento sigue en la tabla, pero ya no aparece en el listado.
+$sql = "UPDATE documento SET activo = 0 WHERE id = :id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([":id" => $id]);
+
+header("Location: documentos.php?ok=3");
+exit;
