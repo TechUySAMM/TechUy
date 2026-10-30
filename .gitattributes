@@ -1,0 +1,9 @@
+# Archivos binarios: Git no debe tocarlos
+*.pdf binary
+*.png binary
+*.jpg binary
+*.docx binary
+# Scripts de Debian siempre con LF
+*.sh text eol=lf
+# Scripts de Windows siempre con CRLF
+*.bat text eol=crlf
