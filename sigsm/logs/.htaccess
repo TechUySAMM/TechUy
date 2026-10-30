@@ -1,0 +1,2 @@
+# Acceso directo bloqueado: solo PHP puede leer esta carpeta
+Require all denied

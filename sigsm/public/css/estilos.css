@@ -1,0 +1,207 @@
+/* ============================================================
+   public/css/estilos.css
+   Estilos generales de la aplicacion (panel y portal publico),
+   con la paleta de la guia base de estilos comun:
+     primario #0f766e / hover #115e59 / fondo #eef2f6
+     tarjetas #ffffff / texto #1f2937 / bordes #cbd5e1
+     error #ef4444
+   ============================================================ */
+
+:root {
+    --sigsm-primario: #0f766e;
+    --sigsm-primario-hover: #115e59;
+    --sigsm-fondo: #eef2f6;
+    --sigsm-tarjeta: #ffffff;
+    --sigsm-texto: #1f2937;
+    --sigsm-borde: #cbd5e1;
+    --sigsm-error: #ef4444;
+    --sigsm-oscuro: #0f172a;
+
+    /* Bootstrap toma el color primario de la guia */
+    --bs-primary: #0f766e;
+    --bs-primary-rgb: 15, 118, 110;
+    --bs-link-color: #0f766e;
+    --bs-link-hover-color: #115e59;
+    --bs-body-color: #1f2937;
+    --bs-danger: #ef4444;
+}
+
+body {
+    background-color: var(--sigsm-fondo);
+    color: var(--sigsm-texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* ---------- Barra superior ---------- */
+.navbar-sigsm {
+    background: var(--sigsm-oscuro);
+}
+.navbar-sigsm .navbar-brand img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+.navbar-sigsm .nav-link.active {
+    color: #fff;
+    border-bottom: 3px solid var(--sigsm-primario);
+}
+
+/* ---------- Botones (mismo estilo que el login) ---------- */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+}
+.btn-primary {
+    --bs-btn-bg: #0f766e;
+    --bs-btn-border-color: #0f766e;
+    --bs-btn-hover-bg: #115e59;
+    --bs-btn-hover-border-color: #115e59;
+    --bs-btn-active-bg: #115e59;
+    --bs-btn-active-border-color: #115e59;
+    --bs-btn-disabled-bg: #0f766e;
+    --bs-btn-disabled-border-color: #0f766e;
+}
+.btn-outline-primary {
+    --bs-btn-color: #0f766e;
+    --bs-btn-border-color: #0f766e;
+    --bs-btn-hover-bg: #0f766e;
+    --bs-btn-hover-border-color: #0f766e;
+    --bs-btn-active-bg: #115e59;
+    --bs-btn-active-border-color: #115e59;
+}
+.btn-danger,
+.btn-outline-danger {
+    --bs-btn-border-color: #ef4444;
+}
+.btn-danger {
+    --bs-btn-bg: #ef4444;
+    --bs-btn-hover-bg: #dc2626;
+}
+.btn-outline-danger {
+    --bs-btn-color: #dc2626;
+    --bs-btn-hover-bg: #ef4444;
+    --bs-btn-hover-border-color: #ef4444;
+}
+
+/* ---------- Campos de entrada ---------- */
+.form-control,
+.form-select {
+    border: 1px solid var(--sigsm-borde);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 15px;
+}
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--sigsm-primario);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+.form-check-input:checked {
+    background-color: var(--sigsm-primario);
+    border-color: var(--sigsm-primario);
+}
+.is-invalid,
+.form-control.is-invalid {
+    border-color: var(--sigsm-error) !important;
+}
+.invalid-feedback {
+    color: var(--sigsm-error);
+}
+
+/* ---------- Tarjetas ---------- */
+.card {
+    background: var(--sigsm-tarjeta);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+.card-header {
+    background: transparent;
+    font-weight: 700;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.indicador {
+    border-left: 5px solid var(--sigsm-primario);
+}
+.indicador .numero {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--sigsm-primario);
+    line-height: 1.1;
+}
+
+/* ---------- Tablas ---------- */
+.table thead th {
+    background: var(--sigsm-primario);
+    color: #fff;
+    border-color: var(--sigsm-primario);
+    white-space: nowrap;
+}
+
+/* ---------- Portal publico (pacientes, mobile-first) ---------- */
+.hero-portal {
+    background: linear-gradient(90deg, rgba(15, 23, 42, .88), rgba(15, 118, 110, .85)),
+                url('../img/login_fondo.svg') center / cover;
+    color: #fff;
+    border-radius: 16px;
+}
+.acceso-grande {
+    min-height: 120px;
+    font-size: 1.15rem;
+}
+.portal-publico .btn {
+    min-height: 48px;
+}
+
+.badge-tipo-indicacion { background: #0f766e; }
+.badge-tipo-informacion { background: #475569; }
+
+/* ---------- Barra de resultados de encuesta ---------- */
+.barra-opcion {
+    height: 22px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.barra-opcion > span {
+    display: block;
+    height: 100%;
+    background: var(--sigsm-primario);
+}
+
+/* ---------- Pie de pagina ---------- */
+.pie-sigsm {
+    background: var(--sigsm-oscuro);
+    color: #cbd5e1;
+    text-align: center;
+    padding: 14px 0;
+    font-size: .85rem;
+    margin-top: 2rem;
+}
+
+/* ---------- Accesibilidad ---------- */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--sigsm-primario);
+    outline-offset: 3px;
+}
+
+/* Campo trampa anti-bots: invisible para personas */
+.campo-trampa {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}

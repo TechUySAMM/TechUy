@@ -1,0 +1,188 @@
+/* ============================================================
+   public/css/login_sistema.css
+   Estilos del login segun la guia base de estilos comun
+   (plantilla_estilo.odt): 58% imagen / 42% formulario,
+   paleta TEAL, botones y campos unificados, responsive < 900px.
+   ============================================================ */
+
+body.pagina-login {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1f2937;
+    background: #eef2f6;
+}
+
+/* Contenedor principal: ocupa toda la altura y divide en dos */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Sector izquierdo: imagen institucional */
+.login-left {
+    width: 58%;
+    background-image: url('../img/login_fondo.svg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Overlay para que el texto sobre la imagen sea legible */
+.login-overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(15, 23, 42, 0.82),
+        rgba(15, 23, 42, 0.50),
+        rgba(15, 23, 42, 0.15)
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 60px;
+    box-sizing: border-box;
+}
+
+.login-brand {
+    color: #ffffff;
+    max-width: 520px;
+}
+.login-brand h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    margin-bottom: .3rem;
+}
+.login-brand h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.login-brand p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: .9;
+    margin: 0;
+}
+
+/* Sector derecho: formulario */
+.login-right {
+    width: 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    background: #f8fafc;
+}
+
+/* Caja del formulario */
+.login-box {
+    width: 100%;
+    max-width: 430px;
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 16px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+}
+
+.login-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 14px;
+}
+
+.login-box h2 {
+    font-size: 1.35rem;
+    text-align: center;
+    margin-bottom: 4px;
+}
+.login-box .login-sub {
+    text-align: center;
+    color: #64748b;
+    font-size: .92rem;
+    margin-bottom: 22px;
+}
+
+.login-box label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: .95rem;
+}
+
+/* Campos de entrada */
+.login-box input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 13px;
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+.login-box input:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    outline: none;
+}
+.login-box input.campo-error {
+    border-color: #ef4444;
+}
+
+/* Botones */
+.login-box button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #0f766e;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+.login-box button:hover {
+    background: #115e59;
+}
+
+.login-mensaje {
+    min-height: 1.4em;
+    font-weight: 600;
+    font-size: .92rem;
+    margin-bottom: 12px;
+}
+.login-mensaje.error { color: #ef4444; }
+.login-mensaje.exito { color: #0f766e; }
+
+.login-links {
+    margin-top: 18px;
+    text-align: center;
+    font-size: .9rem;
+}
+.login-links a {
+    color: #0f766e;
+    font-weight: 600;
+}
+
+/* Diseno responsive: menos de 900px las columnas van una debajo de otra */
+@media (max-width: 900px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+    .login-left {
+        width: 100%;
+        min-height: 260px;
+    }
+    .login-overlay {
+        padding: 28px;
+    }
+    .login-brand h1 {
+        font-size: 2rem;
+    }
+    .login-right {
+        width: 100%;
+        padding: 24px;
+    }
+}

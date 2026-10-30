@@ -1,0 +1,7 @@
+# Respaldos locales y logs: no se suben al repositorio
+respaldos/
+logs/*.log
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+.vscode/

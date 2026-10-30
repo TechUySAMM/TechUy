@@ -1,0 +1,21 @@
+# ============================================================
+# S.I.G.S.M. - Configuracion de Apache
+# ============================================================
+# No listar el contenido de las carpetas
+Options -Indexes
+
+# Cabeceras de seguridad basicas
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
+</IfModule>
+
+# Paginas de error genericas (sin detalles tecnicos)
+ErrorDocument 403 /sigsm/index.php
+ErrorDocument 404 /sigsm/index.php
+
+# Para una publicacion real con certificado, descomentar para forzar HTTPS:
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
