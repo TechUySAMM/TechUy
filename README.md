@@ -114,7 +114,7 @@ Cada página separa **procesamiento** (arriba, PHP) de **presentación** (abajo,
 ## 7. Seguridad implementada
 
 - Contraseñas con `password_hash()` / `password_verify()`.
-- Sesiones PHP con cookie `HttpOnly` + `SameSite=Strict`, `session_regenerate_id()` al ingresar.
+- Sesiones PHP con cookie `HttpOnly` + `SameSite=Strict`, `session_regenerate_id()` al ingresar, y comprobación en cada página de que el usuario siga activo.
 - Control de permisos en PHP en cada página (`requerir_login()` / `requerir_admin()`), también al entrar por URL.
 - Consultas preparadas PDO en todas las consultas con datos del usuario.
 - Token CSRF en todos los formularios que modifican datos; bajas y cierre de sesión solo por POST.

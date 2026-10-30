@@ -31,11 +31,18 @@ auditar($pdo, 'exportar_csv', 'encuesta', $f['encuesta'], 'Exportación de resul
 header('Content-Type: text/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="resultados_encuesta_' . $f['encuesta'] . '_' . date('Ymd') . '.csv"');
 
+// Un comentario anonimo que empiece con = + - @ se ejecutaria como formula
+// al abrir el archivo en Excel: se le agrega una comilla adelante
+function celda_segura(string $valor): string
+{
+    return preg_match('/^[=+\-@]/', $valor) === 1 ? "'" . $valor : $valor;
+}
+
 $salida = fopen('php://output', 'w');
 fwrite($salida, "\xEF\xBB\xBF");
 fputcsv($salida, ['Encuesta', 'N° envío', 'Fecha', 'Servicio', 'N° pregunta', 'Pregunta', 'Respuesta'], ';');
 while ($fila = $stmt->fetch()) {
     fputcsv($salida, [$fila['encuesta'], $fila['n_respuesta'], $fila['fecha'], $fila['servicio'] ?? 'General',
-                      $fila['n_pregunta'], $fila['pregunta'], $fila['valor']], ';');
+                      $fila['n_pregunta'], $fila['pregunta'], celda_segura($fila['valor'])], ';');
 }
 fclose($salida);
